@@ -11,10 +11,10 @@
 # --- Docker --- #
 # -------------- #
 ## - Remove old packages
-- name: Docker - Remove "{{ item }}" package
+- name: Docker - Remove old packages
   hosts: localhost
   tasks:
-  - name: Remove old instances
+  - name: Remove "{{ item }}" package
     apt:
       name: "{{ item }}"
       state: absent

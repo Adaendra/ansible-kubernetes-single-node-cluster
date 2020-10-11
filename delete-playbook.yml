@@ -1,0 +1,28 @@
+- name: Uninstall Docker & Kubernetes
+  hosts: localhost
+  tasks:
+  - name: Remove Kubernetes configs
+    command: kubeadm reset
+  - name: Purge "{{ item }}"
+    command: apt-get purge "{{ item }}"
+    loop:
+    - kubeadm 
+    - kubectl 
+    - kubelet 
+    - kubernetes-cni 
+    - kube*   
+  - name: Clean unwanted old stuff
+    apt:
+      autoremove: yes
+  - name: Remove Kubernetes config files
+    command: rm -rf ~/.kube
+  - name: Remove "{{ item }}" instances
+    apt:
+      name: "{{ item }}"
+      state: absent
+    loop: 
+    - docker 
+    - docker-engine 
+    - docker.io 
+    - containerd 
+    - runc

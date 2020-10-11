@@ -13,3 +13,12 @@ Playbook to create the Kubernetes single node cluster with Docker.
 ```
 ansible-playbook create-playboook.yml -i hosts
 ```
+
+
+### Delete Playbook
+Playbook to remove the Kubernetes cluster then remove packages of Kubernetes and Docker.
+
+*Command:*
+```
+ansible-playbook delete-playboook.yml -i hosts
+```
