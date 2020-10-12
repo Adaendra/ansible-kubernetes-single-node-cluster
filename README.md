@@ -22,3 +22,14 @@ Playbook to remove the Kubernetes cluster then remove packages of Kubernetes and
 ```
 ansible-playbook delete-playboook.yml -i hosts
 ```
+
+<br/>
+
+## Roles
+### Principals
+
+### Additionnals
+* **HELM**\
+Role to install Helm to help for Kubernetes deployments.
+* **Kubernetes Dashboard**\
+To Install the Kubernetes Dashboard.
