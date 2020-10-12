@@ -44,6 +44,6 @@ To reset the Kubernetes cluster.
 
 ### Additionnals
 * **helm**\
-Role to install Helm to help for Kubernetes deployments.
+To install Helm for helping for Kubernetes deployments.
 * **k8s_dashboard**\
 To Install the Kubernetes Dashboard.
