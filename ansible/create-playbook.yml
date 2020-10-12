@@ -10,20 +10,10 @@
 # -------------- #
 # --- Docker --- #
 # -------------- #
-## - Remove old packages
-- name: Docker - Remove old packages
+- name: Docker
   hosts: localhost
-  tasks:
-  - name: Remove "{{ item }}" package
-    apt:
-      name: "{{ item }}"
-      state: absent
-    loop: 
-    - docker 
-    - docker-engine 
-    - docker.io 
-    - containerd 
-    - runc
+  roles:
+  - delete_docker # Delete old instances
 
 ## - Set-up Docker Repository
 - name: Docker - Set-up repo

@@ -16,13 +16,6 @@
       autoremove: yes
   - name: Remove Kubernetes config files
     command: rm -rf ~/.kube
-  - name: Remove "{{ item }}" instances
-    apt:
-      name: "{{ item }}"
-      state: absent
-    loop: 
-    - docker 
-    - docker-engine 
-    - docker.io 
-    - containerd 
-    - runc
+
+  roles:
+  - delete_docker
