@@ -1,0 +1,11 @@
+tasks:
+  - name: Remove "{{ item }}" package
+    apt:
+      name: "{{ item }}"
+      state: absent
+    loop: 
+    - docker 
+    - docker-engine 
+    - docker.io 
+    - containerd 
+    - runc

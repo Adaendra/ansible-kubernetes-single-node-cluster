@@ -10,142 +10,22 @@
 # -------------- #
 # --- Docker --- #
 # -------------- #
-## - Remove old packages
-- name: Docker - Remove old packages
+- name: Docker
   hosts: localhost
-  tasks:
-  - name: Remove "{{ item }}" package
-    apt:
-      name: "{{ item }}"
-      state: absent
-    loop: 
-    - docker 
-    - docker-engine 
-    - docker.io 
-    - containerd 
-    - runc
-
-## - Set-up Docker Repository
-- name: Docker - Set-up repo
-  hosts: localhost
-  tasks:
-  - name: apt-get update
-    apt:
-      update_cache: yes
-  - name: Install the package "{{ item }}"
-    apt:
-      name: "{{ item }}"
-      state: present
-    loop: 
-    - apt-transport-https
-    - ca-certificates
-    - curl
-    - gnupg-agent
-    - software-properties-common
-  - name: Add Docker repository key
-    command: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  - name: Add Apt Repository
-    command: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-
-## - Install Docker Engine
-- name: Docker - Install Docker engine
-  hosts: localhost
-  tasks:
-  - name: apt-get update
-    apt:
-      update_cache: yes
-  - name: Install the package "{{ item }}"
-    apt:
-      name: "{{ item }}"
-      state: present
-    loop: 
-    - docker-ce 
-    - docker-ce-cli 
-    - containerd.io
-  - name: Start service docker, if not started
-    service:
-      name: docker
-      state: started
+  roles:
+  - delete_docker # Delete old instances
+  - install_docker # Install Docker Engine
 
 # ------------------ #
 # --- Kubernetes --- #
 # ------------------ #
-## - Install kubeadm
-- name: Kubernetes - Install kubeadm
+- name: Kubernetes
   hosts: localhost
-  tasks:
-  - name: apt-get update
-    apt:
-      update_cache: yes
-  - name: Install the package "{{ item }}"
-    apt:
-      name: "{{ item }}"
-      state: present
-    loop: 
-    - apt-transport-https 
-    - curl
-  - name: Add Kubernetes repository key
-    command: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-  - name:
-    command: |
-        cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
-        deb https://apt.kubernetes.io/ kubernetes-xenial main
-        EOF
-  - name: apt-get update
-    apt:
-      update_cache: yes
-  - name: Install the package "{{ item }}"
-    apt:
-      name: "{{ item }}"
-      state: present
-    loop: 
-    - kubelet
-    - kubeadm
-    - kubectl
-  - name: Hold the package "{{ item }}"
-    command: apt-mark hold "{{ item }}"
-    loop: 
-    - kubelet
-    - kubeadm
-    - kubectl
+  roles:
+  - install_k8s
+  - k8s_cluster
+  - install_calico
 
-## - Create cluster
-- name: Kubernetes - Create cluster
-  hosts: localhost
-  tasks:
-  - name: Update config kubelet
-    template: 
-      src: kubelet_config.yaml.j2 
-      dest: "/var/lib/kubelet/config.yaml"
-  - name: Daemon-reload
-    command: systemctl daemon-reload
-  - name: Restart Kubelet
-    command: systemctl restart kubelet
-  - name: Create cluster
-    command: kubeadm init --pod-network-cidr=192.168.0.0/16
-  - name: Give kubectl rights to another user than root - 1
-    command: mkdir -p $HOME/.kube
-  - name: Give kubectl rights to another user than root - 2
-    command: sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-  - name: Give kubectl rights to another user than root - 3
-    command: sudo chown $(id -u):$(id -g) $HOME/.kube/config
-  - name: Config for root user
-    command: export KUBECONFIG=/etc/kubernetes/admin.conf
-
-# -------------- #
-# --- Calico --- #
-# -------------- #
-- name: Install Calico
-  hosts: localhost
-  tasks:
-  - name: Install Calico
-    command: kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
-  - name: Install resources
-    command: kubectl create -f https://docs.projectcalico.org/manifests/custom-resources.yaml
-  - name: wait for pods to come up
-    shell: kubectl get pods -n calico-system -o json
-    register: kubectl_get_pods
-    until: kubectl_get_pods.stdout|from_json|json_query('items[*].status.phase')|unique == ["Running"]
 
 # ------------------ #
 # --- Kubernetes --- #

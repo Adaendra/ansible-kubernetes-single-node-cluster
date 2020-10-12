@@ -1,0 +1,20 @@
+tasks:
+
+- name: Add helm repository key
+  command: curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
+
+- name: Install APT Transport HTTPS
+  apt:
+    name: apt-transport-https
+    state: present
+
+- command: echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+
+- name: apt-get update
+  apt:
+    update_cache: yes
+
+- name: Install Helm
+  apt:
+    name: helm
+    state: present

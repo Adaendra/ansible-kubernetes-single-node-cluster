@@ -1,0 +1,26 @@
+tasks:
+  - name: Update config kubelet
+    template: 
+      src: kubelet_config.yaml.j2 
+      dest: "/var/lib/kubelet/config.yaml"
+
+  - name: Daemon-reload
+    command: systemctl daemon-reload
+
+  - name: Restart Kubelet
+    command: systemctl restart kubelet
+
+  - name: Create cluster
+    command: kubeadm init --pod-network-cidr=192.168.0.0/16
+
+  - name: Give kubectl rights to another user than root - 1
+    command: mkdir -p $HOME/.kube
+
+  - name: Give kubectl rights to another user than root - 2
+    command: sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+
+  - name: Give kubectl rights to another user than root - 3
+    command: sudo chown $(id -u):$(id -g) $HOME/.kube/config
+    
+  - name: Config for root user
+    command: export KUBECONFIG=/etc/kubernetes/admin.conf

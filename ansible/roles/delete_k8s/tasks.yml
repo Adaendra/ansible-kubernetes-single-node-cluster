@@ -1,0 +1,14 @@
+tasks:
+  - name: Purge "{{ item }}"
+    command: apt-get purge "{{ item }}"
+    loop:
+    - kubeadm 
+    - kubectl 
+    - kubelet 
+    - kubernetes-cni 
+    - kube*   
+  - name: Clean unwanted old stuff
+    apt:
+      autoremove: yes
+  - name: Remove Kubernetes config files
+    command: rm -rf ~/.kube
