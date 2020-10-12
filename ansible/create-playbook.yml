@@ -19,27 +19,13 @@
 # ------------------ #
 # --- Kubernetes --- #
 # ------------------ #
-## - Install kubeadm
 - name: Kubernetes
   hosts: localhost
   roles:
   - install_k8s
   - k8s_cluster
+  - install_calico
 
-# -------------- #
-# --- Calico --- #
-# -------------- #
-- name: Install Calico
-  hosts: localhost
-  tasks:
-  - name: Install Calico
-    command: kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
-  - name: Install resources
-    command: kubectl create -f https://docs.projectcalico.org/manifests/custom-resources.yaml
-  - name: wait for pods to come up
-    shell: kubectl get pods -n calico-system -o json
-    register: kubectl_get_pods
-    until: kubectl_get_pods.stdout|from_json|json_query('items[*].status.phase')|unique == ["Running"]
 
 # ------------------ #
 # --- Kubernetes --- #
