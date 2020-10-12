@@ -1,8 +1,6 @@
 - name: Uninstall Docker & Kubernetes
   hosts: localhost
   tasks:
-  - name: Remove Kubernetes configs
-    command: kubeadm reset
   - name: Purge "{{ item }}"
     command: apt-get purge "{{ item }}"
     loop:
@@ -18,4 +16,6 @@
     command: rm -rf ~/.kube
 
   roles:
+  - reset_cluster
+
   - delete_docker
