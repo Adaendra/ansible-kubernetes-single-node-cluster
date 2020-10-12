@@ -29,11 +29,13 @@ ansible-playbook delete-playboook.yml -i hosts
 ### Principals
 * **delete_docker**\
 To delete Docker from the machine.
+* **delete_k8s**\
+To delete Kubernetes from the machine
 * **reset_cluster**\
 To reset the Kubernetes cluster.
 
 ### Additionnals
-* **herm**\
+* **helm**\
 Role to install Helm to help for Kubernetes deployments.
 * **k8s_dashboard**\
 To Install the Kubernetes Dashboard.
