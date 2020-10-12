@@ -31,6 +31,8 @@ ansible-playbook delete-playboook.yml -i hosts
 To delete Docker from the machine.
 * **delete_k8s**\
 To delete Kubernetes from the machine
+* **install_calico**\
+To install Calico
 * **install_docker**\
 To install Docker.
 * **install_k8s**\
