@@ -33,6 +33,8 @@ To delete Docker from the machine.
 To delete Kubernetes from the machine
 * **install_docker**\
 To install Docker.
+* **install_k8s**\
+To install kubernetes packages.
 * **reset_cluster**\
 To reset the Kubernetes cluster.
 
