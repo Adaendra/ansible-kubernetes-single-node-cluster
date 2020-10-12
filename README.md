@@ -26,7 +26,7 @@ ansible-playbook delete-playboook.yml -i hosts
 <br/>
 
 ## Roles
-### Principals
+### Used
 * **delete_docker**\
 To delete Docker from the machine.
 * **delete_k8s**\
