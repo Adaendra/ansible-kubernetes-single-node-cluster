@@ -1,8 +1,9 @@
+---
+
 # -------------------- #
 # --- Pre-required --- #
 # -------------------- #
-- name: Pre-required
-  hosts: localhost
+- hosts: localhost
   tasks:
   - name: Disable Swap
     command: swapoff -a
@@ -10,8 +11,7 @@
 # -------------- #
 # --- Docker --- #
 # -------------- #
-- name: Docker
-  hosts: localhost
+- hosts: localhost
   roles:
   - delete_docker # Delete old instances
   - install_docker # Install Docker Engine
@@ -19,8 +19,7 @@
 # ------------------ #
 # --- Kubernetes --- #
 # ------------------ #
-- name: Kubernetes
-  hosts: localhost
+- hosts: localhost
   roles:
   - install_k8s
   - k8s_cluster
@@ -31,8 +30,7 @@
 # --- Kubernetes --- #
 # ------------------ #
 ## - Untaint master node
-- name: Kubernetes - Untaint master node
-  hosts: localhost
+- hosts: localhost
   tasks:
   - name: untaint master node
     command: kubectl taint nodes --all node-role.kubernetes.io/master-

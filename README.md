@@ -9,7 +9,7 @@ This playbook was made for Ubuntu 18.04
 ### Create Playbook
 Playbook to create the Kubernetes single node cluster with Docker.
 
-*Command:*
+*Command to execute from the ansible folder:*
 ```
 ansible-playbook create-playboook.yml -i hosts
 ```

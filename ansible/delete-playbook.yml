@@ -1,5 +1,6 @@
-- name: Uninstall Kubernetes & Docker
-  hosts: localhost
+---
+
+- hosts: localhost
   roles:
   - reset_cluster
   - delete_k8s
