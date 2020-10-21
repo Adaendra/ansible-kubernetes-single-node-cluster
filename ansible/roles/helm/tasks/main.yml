@@ -1,4 +1,4 @@
-tasks:
+---
 
 - name: Add helm repository key
   command: curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -

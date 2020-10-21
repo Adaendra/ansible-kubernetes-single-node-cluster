@@ -1,8 +1,9 @@
+---
+
 # -------------------- #
 # --- Pre-required --- #
 # -------------------- #
-- name: Pre-required
-  hosts: localhost
+- hosts: localhost
   tasks:
   - name: Disable Swap
     command: swapoff -a
@@ -10,29 +11,23 @@
 # -------------- #
 # --- Docker --- #
 # -------------- #
-- name: Docker
-  hosts: localhost
+- hosts: localhost
   roles:
-  - delete_docker # Delete old instances
-  - install_docker # Install Docker Engine
+  - delete_docker     # Used to delete old instances
+  - install_docker    # Install Docker Engine
 
 # ------------------ #
 # --- Kubernetes --- #
 # ------------------ #
-- name: Kubernetes
-  hosts: localhost
+## - Set-up the cluster & master node
+- hosts: localhost
   roles:
   - install_k8s
   - k8s_cluster
-  - install_calico
+  - install_calico    # For the Network Interface
 
-
-# ------------------ #
-# --- Kubernetes --- #
-# ------------------ #
-## - Untaint master node
-- name: Kubernetes - Untaint master node
-  hosts: localhost
+## - Untaint master node to have the single node cluster
+- hosts: localhost
   tasks:
   - name: untaint master node
     command: kubectl taint nodes --all node-role.kubernetes.io/master-

@@ -9,18 +9,18 @@ This playbook was made for Ubuntu 18.04
 ### Create Playbook
 Playbook to create the Kubernetes single node cluster with Docker.
 
-*Command:*
+*Command to execute from the ansible folder:*
 ```
-ansible-playbook create-playboook.yml -i hosts
+ansible-playbook create-playboook.yml -i inventory/hosts
 ```
 
 
 ### Delete Playbook
 Playbook to remove the Kubernetes cluster then remove packages of Kubernetes and Docker.
 
-*Command:*
+*Command to execute from the ansible folder:*
 ```
-ansible-playbook delete-playboook.yml -i hosts
+ansible-playbook delete-playboook.yml -i inventory/hosts
 ```
 
 <br/>
